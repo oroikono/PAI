@@ -1,4 +1,4 @@
-﻿How to run task 2 on Euler
+How to run task 2 on Euler
 ==========================
 This guide describes how you can run task 2 on the ETH Euler cluster.
 Please only follow this approach if you are unable to run the task on your local machine,
@@ -82,3 +82,5 @@ You need to perform the following steps each time you reconnect to the cluster a
     4. After your job starts, you can determine its job ID via `bbjobs` and then watch it in real-time using `bpeek -f jobID` where your replace `jobID` with the job's ID.
     5. As soon as your job completed, you can find its output in *~/task2/logs.txt* and your submission in *~/task2/results_check.byte*.
 	Note that the batch system appends the outputs of multiple jobs to the log file.
+
+

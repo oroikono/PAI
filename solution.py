@@ -327,7 +327,7 @@ class DropoutTrainer(Framework):
         self.train_loader = torch.utils.data.DataLoader(
             dataset_train, batch_size=self.batch_size, shuffle=True, drop_last=True
             )
-        self.optimizer = torch.optim.NAdam(self.network.parameters(), lr=self.learning_rate) 
+        self.optimizer = torch.optim.RMSprop(self.network.parameters(), lr=self.learning_rate) 
 
     def train(self):
         self.network.train()
