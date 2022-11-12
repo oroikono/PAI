@@ -348,10 +348,10 @@ class DropoutTrainer(Framework):
 
                 # # loss = F.mse_loss(F.softmax(current_logits, dim=1), batch_y,reduction='sum')
 
-                # current_logits = self.network(batch_x)
+                current_logits = self.network(batch_x)
                 # current_logits = torch.nn.functional.softmax(current_logits)
 
-                loss = nn.CrossEntropyLoss()(batch_x, batch_y)
+                loss = nn.CrossEntropyLoss()(current_logits, batch_y)
 
                 # Backpropagate to get the gradients
                 loss.backward()

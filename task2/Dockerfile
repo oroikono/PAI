@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.8-slim
+FROM --platform=linux/amd64 python:3.9-slim
 ADD ./requirements.txt /requirements.txt
 RUN pip install --no-cache-dir -U pip && pip install --no-cache-dir -r /requirements.txt
 WORKDIR /code
