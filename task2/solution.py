@@ -261,7 +261,7 @@ class MNISTNet(nn.Module):
     def __init__(self,
                 in_features: int, 
                 out_features: int,
-                dropout_p=0.5,
+                dropout_p=0.25,
                 dropout_at_eval=False
                 ):
         super().__init__()
@@ -317,7 +317,7 @@ class DropoutTrainer(Framework):
         # TODO: MC_Dropout_4. Do experiments and tune hyperparameters
         self.batch_size = 128
         self.learning_rate = 1e-3
-        self.num_epochs = 100
+        self.num_epochs = 20
         # torch.manual_seed(0) # set seed for reproducibility
         
         # TODO: MC_Dropout_1. Initialize the MC_Dropout network and optimizer here
@@ -350,7 +350,7 @@ class DropoutTrainer(Framework):
 
                 current_logits = self.network(batch_x)
                 # current_logits = torch.nn.functional.softmax(current_logits)
-                lam = 0.001
+                lam = 0.000001
                 l2_norm = sum(p.pow(2.0).sum() for p in self.network.parameters())
                 loss = nn.CrossEntropyLoss()(current_logits, batch_y)+lam*l2_norm
 
