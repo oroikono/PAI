@@ -350,7 +350,7 @@ class DropoutTrainer(Framework):
 
                 current_logits = self.network(batch_x)
                 # current_logits = torch.nn.functional.softmax(current_logits)
-                lam = 0.000001
+                lam = 0.001
                 l2_norm = sum(p.pow(2.0).sum() for p in self.network.parameters())
                 loss = nn.CrossEntropyLoss()(current_logits, batch_y)+lam*l2_norm
 
