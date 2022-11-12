@@ -316,7 +316,7 @@ class DropoutTrainer(Framework):
         # Hyperparameters and general parameters
         # TODO: MC_Dropout_4. Do experiments and tune hyperparameters
         self.batch_size = 500
-        self.learning_rate = 1e-2
+        self.learning_rate = 1e-3
         self.num_epochs = 40
         # torch.manual_seed(0) # set seed for reproducibility
         
