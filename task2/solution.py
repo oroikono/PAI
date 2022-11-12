@@ -261,7 +261,7 @@ class MNISTNet(nn.Module):
     def __init__(self,
                 in_features: int, 
                 out_features: int,
-                dropout_p=0.25,
+                dropout_p=0.5,
                 dropout_at_eval=False
                 ):
         super().__init__()
@@ -327,7 +327,7 @@ class DropoutTrainer(Framework):
         self.train_loader = torch.utils.data.DataLoader(
             dataset_train, batch_size=self.batch_size, shuffle=True, drop_last=True
             )
-        self.optimizer = torch.optim.Adam(self.network.parameters(), lr=self.learning_rate) 
+        self.optimizer = torch.optim.RMSprop(self.network.parameters(), lr=self.learning_rate) 
 
     def train(self):
         self.network.train()
