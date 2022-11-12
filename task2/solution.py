@@ -206,16 +206,16 @@ class DummyTrainer(Framework):
         super().__init__(dataset_train, *args, **kwargs)
 
         # Hyperparameters and general parameters
-        self.batch_size = 128
+        self.batch_size = 64
         self.learning_rate = 1e-3
-        self.num_epochs = 32
+        self.num_epochs = 100
 
 
         self.network = MNISTNet(in_features=28*28,out_features=10)
         self.train_loader = torch.utils.data.DataLoader(
             dataset_train, batch_size=self.batch_size, shuffle=True, drop_last=True
             )
-        self.optimizer = torch.optim.RMSprop(self.network.parameters(), lr=self.learning_rate) 
+        self.optimizer = torch.optim.Adam(self.network.parameters(), lr=self.learning_rate) 
         
     def train(self):
         self.network.train()
