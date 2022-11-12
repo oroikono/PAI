@@ -5,6 +5,6 @@ Matplotlib==3.4.*
 torch==1.9.*
 torchvision==0.10.*
 tqdm==4.62.*
-#numpy==1.22.*
+numpy==1.22.*
 pyarmor==6.7.4
 scikit-learn==1.1.*
