@@ -261,7 +261,7 @@ class MNISTNet(nn.Module):
     def __init__(self,
                 in_features: int, 
                 out_features: int,
-                dropout_p=0.25,
+                dropout_p=0.5,
                 dropout_at_eval=True
                 ):
         super().__init__()
@@ -342,16 +342,9 @@ class DropoutTrainer(Framework):
                 # TODO: MC_Dropout_2. Implement MCDropout training here
                 # You need to calculate the loss based on the literature
 
-                
-                # # outputs = self.network.forward(batch_x)
-                
-                # ones = torch.sparse.torch.eye(10)  # number of class class
-                # batch_y = ones.index_select(0, batch_y)
-
-                # # loss = F.mse_loss(F.softmax(current_logits, dim=1), batch_y,reduction='sum')
                 criterion = nn.CrossEntropyLoss()
                 current_logits = self.network.forward(batch_x)
-                # current_logits = torch.nn.functional.softmax(current_logits)
+                
                 loss = criterion(current_logits, batch_y)
 
                 # Backpropagate to get the gradients
