@@ -327,7 +327,7 @@ class DropoutTrainer(Framework):
         self.train_loader = torch.utils.data.DataLoader(
             dataset_train, batch_size=self.batch_size, shuffle=True, drop_last=True
             )
-        self.optimizer = torch.optim.Adam(self.network.parameters(), lr=self.learning_rate,weight_decay=1e-2) 
+        self.optimizer = torch.optim.SGD(self.network.parameters(), lr=self.learning_rate,weight_decay=1e-2) 
 
     def train(self):
         self.network.train()
