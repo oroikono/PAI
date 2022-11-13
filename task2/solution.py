@@ -261,8 +261,8 @@ class MNISTNet(nn.Module):
     def __init__(self,
                 in_features: int, 
                 out_features: int,
-                dropout_p=0.05,
-                dropout_at_eval=False
+                dropout_p=0.3,
+                dropout_at_eval=True
                 ):
         super().__init__()
         # TODO General_2: Play around with the network structure.
@@ -315,9 +315,9 @@ class DropoutTrainer(Framework):
 
         # Hyperparameters and general parameters
         # TODO: MC_Dropout_4. Do experiments and tune hyperparameters
-        self.batch_size = 500
+        self.batch_size = 128
         self.learning_rate = 1e-3
-        self.num_epochs = 40
+        self.num_epochs = 32
         # torch.manual_seed(0) # set seed for reproducibility
         
         # TODO: MC_Dropout_1. Initialize the MC_Dropout network and optimizer here
@@ -327,7 +327,7 @@ class DropoutTrainer(Framework):
         self.train_loader = torch.utils.data.DataLoader(
             dataset_train, batch_size=self.batch_size, shuffle=True, drop_last=True
             )
-        self.optimizer = torch.optim.Adam(self.network.parameters(), lr=self.learning_rate,weight_decay=0.0005) 
+        self.optimizer = torch.optim.Adam(self.network.parameters(), lr=self.learning_rate,weight_decay=1e-2) 
 
     def train(self):
         self.network.train()
@@ -348,9 +348,9 @@ class DropoutTrainer(Framework):
 
                 # # loss = F.mse_loss(F.softmax(current_logits, dim=1), batch_y,reduction='sum')
 
-                current_logits = self.network(batch_x)
+                current_logits = self.network.forward(batch_x)
                 # current_logits = torch.nn.functional.softmax(current_logits)
-                tau = 1e-3
+                tau = 1e-4
                 l2_norm = sum(p.pow(2.0).sum() for p in self.network.parameters())
                 loss = nn.CrossEntropyLoss()(current_logits, batch_y)+tau*l2_norm
 
@@ -394,7 +394,7 @@ class EnsembleTrainer(Framework):
         # Hyperparameters and general parameters
         # TODO: Ensemble_4. Do experiments and tune hyperparameters
         self.batch_size = 128
-        self.learning_rate = 1e-3
+        self.learning_rate = 1e-4
         self.num_epochs = 64
 
         # TODO: Ensemble_1.  initialize the Ensemble network list and optimizer.
