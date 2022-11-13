@@ -75,7 +75,7 @@ def run_solution(dataset_train: torch.utils.data.Dataset, data_dir: str = os.cur
         # Predict using the trained model
         print('Evaluating model on training data')
         eval_loader = torch.utils.data.DataLoader(
-            dataset_train, batch_size=64, shuffle=False, drop_last=False
+            dataset_train, batch_size=500, shuffle=False, drop_last=False
         )
         evaluate(trainer, eval_loader, data_dir, output_dir)
 
