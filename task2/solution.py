@@ -75,7 +75,7 @@ def run_solution(dataset_train: torch.utils.data.Dataset, data_dir: str = os.cur
         # Predict using the trained model
         print('Evaluating model on training data')
         eval_loader = torch.utils.data.DataLoader(
-            dataset_train, batch_size=500, shuffle=False, drop_last=False
+            dataset_train, batch_size=64, shuffle=False, drop_last=False
         )
         evaluate(trainer, eval_loader, data_dir, output_dir)
 
@@ -317,9 +317,9 @@ class DropoutTrainer(Framework):
 
         # Hyperparameters and general parameters
         # TODO: MC_Dropout_4. Do experiments and tune hyperparameters
-        self.batch_size = 500
+        self.batch_size = 64
         self.learning_rate = 1e-3
-        self.num_epochs = 100
+        self.num_epochs = 20
         # torch.manual_seed(0) # set seed for reproducibility
         
         # TODO: MC_Dropout_1. Initialize the MC_Dropout network and optimizer here
@@ -329,7 +329,7 @@ class DropoutTrainer(Framework):
         self.train_loader = torch.utils.data.DataLoader(
             dataset_train, batch_size=self.batch_size, shuffle=True, drop_last=True
             )
-        self.optimizer = torch.optim.Adam(self.network.parameters(), lr=self.learning_rate,weight_decay=1e-2) 
+        self.optimizer = torch.optim.Adam(self.network.parameters(), lr=self.learning_rate) 
 
     def train(self):
         self.network.train()
@@ -354,7 +354,7 @@ class DropoutTrainer(Framework):
                 # current_logits = torch.nn.functional.softmax(current_logits)
                 tau = 1e-3
                 l2_norm = sum(p.pow(2.0).sum() for p in self.network.parameters())
-                loss = nn.CrossEntropyLoss()(current_logits, batch_y)+tau*l2_norm
+                loss = nn.CrossEntropyLoss()(F.log_softmax(current_logits, dim=1), batch_y)+tau*l2_norm
 
                 # Backpropagate to get the gradients
                 loss.backward()
