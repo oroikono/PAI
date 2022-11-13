@@ -352,9 +352,7 @@ class DropoutTrainer(Framework):
                 criterion = nn.CrossEntropyLoss()
                 current_logits = self.network.forward(batch_x)
                 # current_logits = torch.nn.functional.softmax(current_logits)
-                tau = 1e-3
-                l2_norm = sum(p.pow(2.0).sum() for p in self.network.parameters())
-                loss = criterion(current_logits, batch_y)+tau*l2_norm
+                loss = criterion(current_logits, batch_y)
 
                 # Backpropagate to get the gradients
                 loss.backward()
