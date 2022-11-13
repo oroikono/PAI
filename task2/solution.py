@@ -397,7 +397,7 @@ class EnsembleTrainer(Framework):
         # TODO: Ensemble_4. Do experiments and tune hyperparameters
         self.batch_size = 500
         self.learning_rate = 1e-4
-        self.num_epochs = 3000
+        self.num_epochs = 100
 
         # TODO: Ensemble_1.  initialize the Ensemble network list and optimizer.
         # You can check the Dummy Trainer above for intution about what to do
