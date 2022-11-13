@@ -261,7 +261,7 @@ class MNISTNet(nn.Module):
     def __init__(self,
                 in_features: int, 
                 out_features: int,
-                dropout_p=0.15,
+                dropout_p=0.25,
                 dropout_at_eval=True
                 ):
         super().__init__()
