@@ -279,12 +279,14 @@ class MNISTNet(nn.Module):
         x = F.dropout(
                 F.relu(self.layer1(x)),
                 p=self.dropout_p,
-                training=self.training or self.dropout_at_eval
+                training= self.dropout_at_eval
+                #self.training or self.dropout_at_eval
         )
         x = F.dropout(
                 F.relu(self.layer2(x)),
                 p=self.dropout_p,
-                training=self.training or self.dropout_at_eval
+                training= self.dropout_at_eval
+                #self.training or self.dropout_at_eval
         )
 
         class_probs = self.layer3(x)
@@ -327,7 +329,7 @@ class DropoutTrainer(Framework):
         self.train_loader = torch.utils.data.DataLoader(
             dataset_train, batch_size=self.batch_size, shuffle=True, drop_last=True
             )
-        self.optimizer = torch.optim.NAdam(self.network.parameters(), lr=self.learning_rate) 
+        self.optimizer = torch.optim.NAdam(self.network.parameters(), lr=self.learning_rate,weight_decay=1e-2) 
 
     def train(self):
         self.network.train()
@@ -351,9 +353,8 @@ class DropoutTrainer(Framework):
                 current_logits = self.network.forward(batch_x)
                 # current_logits = torch.nn.functional.softmax(current_logits)
                 tau = 1e-3
-                #l2_norm = sum(p.pow(2.0).sum() for p in self.network.parameters())
-                loss = nn.CrossEntropyLoss()(current_logits, batch_y)
-                #+tau*l2_norm
+                l2_norm = sum(p.pow(2.0).sum() for p in self.network.parameters())
+                loss = nn.CrossEntropyLoss()(current_logits, batch_y)+tau*l2_norm
 
                 # Backpropagate to get the gradients
                 loss.backward()
