@@ -261,15 +261,15 @@ class MNISTNet(nn.Module):
     def __init__(self,
                 in_features: int, 
                 out_features: int,
-                dropout_p=0.3,
+                dropout_p=0.25,
                 dropout_at_eval=True
                 ):
         super().__init__()
         # TODO General_2: Play around with the network structure.
         # You could change the depth or width of the model
-        self.layer1 = nn.Linear(in_features,100)
-        self.layer2 = nn.Linear(100, 100)
-        self.layer3 = nn.Linear(100, out_features)
+        self.layer1 = nn.Linear(in_features,300)
+        self.layer2 = nn.Linear(300, 300)
+        self.layer3 = nn.Linear(300, out_features)
         self.dropout_p = dropout_p
         self.dropout_at_eval = dropout_at_eval
 
@@ -396,7 +396,7 @@ class EnsembleTrainer(Framework):
         # Hyperparameters and general parameters
         # TODO: Ensemble_4. Do experiments and tune hyperparameters
         self.batch_size = 500
-        self.learning_rate = 1e-4
+        self.learning_rate = 1e-3
         self.num_epochs = 100
 
         # TODO: Ensemble_1.  initialize the Ensemble network list and optimizer.
