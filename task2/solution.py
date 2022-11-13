@@ -378,9 +378,9 @@ class DropoutTrainer(Framework):
 
             output=self.network.forward(x)
             if i==0:
-                estimated_probability=torch.nn.functional.log_softmax(output, dim=1)
+                estimated_probability=torch.nn.functional.softmax(output, dim=1)
             else:
-                estimated_probability+=torch.nn.functional.log_softmax(output, dim=1)
+                estimated_probability+=torch.nn.functional.softmax(output, dim=1)
 
         estimated_probability= (estimated_probability/num_sample)
         
