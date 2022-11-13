@@ -24,7 +24,7 @@ from util import ece, ParameterDistribution, draw_reliability_diagram, draw_conf
 from enum import Enum
 
 # TODO: Reliability_diagram_1. Set `EXTENDED_EVALUATION` to `True` in order to visualize your predictions.
-EXTENDED_EVALUATION = False
+EXTENDED_EVALUATION = True
 
 class Approach(Enum):
     Dummy_Trainer = 0
@@ -320,7 +320,7 @@ class DropoutTrainer(Framework):
         self.batch_size = 500
         self.learning_rate = 1e-3
         self.num_epochs = 40
-        # torch.manual_seed(0) # set seed for reproducibility
+        torch.manual_seed(0) # set seed for reproducibility
         
         # TODO: MC_Dropout_1. Initialize the MC_Dropout network and optimizer here
         # You can check the Dummy Trainer above for intuition about what to do
