@@ -317,9 +317,9 @@ class DropoutTrainer(Framework):
 
         # Hyperparameters and general parameters
         # TODO: MC_Dropout_4. Do experiments and tune hyperparameters
-        self.batch_size = 64
+        self.batch_size = 128
         self.learning_rate = 1e-3
-        self.num_epochs = 20
+        self.num_epochs = 40
         # torch.manual_seed(0) # set seed for reproducibility
         
         # TODO: MC_Dropout_1. Initialize the MC_Dropout network and optimizer here
@@ -349,12 +349,12 @@ class DropoutTrainer(Framework):
                 # batch_y = ones.index_select(0, batch_y)
 
                 # # loss = F.mse_loss(F.softmax(current_logits, dim=1), batch_y,reduction='sum')
-
+                criterion = nn.CrossEntropyLoss()
                 current_logits = self.network.forward(batch_x)
                 # current_logits = torch.nn.functional.softmax(current_logits)
                 tau = 1e-3
                 l2_norm = sum(p.pow(2.0).sum() for p in self.network.parameters())
-                loss = nn.MSELoss()(F.log_softmax(current_logits, dim=1), batch_y)+tau*l2_norm
+                loss = criterion(current_logits, batch_y)+tau*l2_norm
 
                 # Backpropagate to get the gradients
                 loss.backward()
