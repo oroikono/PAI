@@ -319,7 +319,7 @@ class DropoutTrainer(Framework):
         # TODO: MC_Dropout_4. Do experiments and tune hyperparameters
         self.batch_size = 500
         self.learning_rate = 1e-3
-        self.num_epochs = 100
+        self.num_epochs = 40
         # torch.manual_seed(0) # set seed for reproducibility
         
         # TODO: MC_Dropout_1. Initialize the MC_Dropout network and optimizer here
