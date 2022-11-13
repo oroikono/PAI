@@ -318,7 +318,7 @@ class DropoutTrainer(Framework):
         # Hyperparameters and general parameters
         # TODO: MC_Dropout_4. Do experiments and tune hyperparameters
         self.batch_size = 500
-        self.learning_rate = 1e-3
+        self.learning_rate = 1e-4
         self.num_epochs = 40
         # torch.manual_seed(0) # set seed for reproducibility
         
@@ -329,7 +329,7 @@ class DropoutTrainer(Framework):
         self.train_loader = torch.utils.data.DataLoader(
             dataset_train, batch_size=self.batch_size, shuffle=True, drop_last=True
             )
-        self.optimizer = torch.optim.Adam(self.network.parameters(), lr=self.learning_rate) 
+        self.optimizer = torch.optim.Adam(self.network.parameters(), lr=self.learning_rate,weight_decay=1e-5) 
 
     def train(self):
         self.network.train()
