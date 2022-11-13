@@ -98,7 +98,7 @@ def run_solution(dataset_train: torch.utils.data.Dataset, data_dir: str = os.cur
         # Evaulate each of the combined models
         print('Evaluating model on training data')
         eval_loader = torch.utils.data.DataLoader(
-            dataset_train, batch_size=64, shuffle=False, drop_last=False
+            dataset_train, batch_size=500, shuffle=False, drop_last=False
         )
         for trainer_i in trainer_list:
             evaluate(trainer_i, eval_loader, data_dir, output_dir)
@@ -261,7 +261,7 @@ class MNISTNet(nn.Module):
     def __init__(self,
                 in_features: int, 
                 out_features: int,
-                dropout_p=0.25,
+                dropout_p=0.15,
                 dropout_at_eval=True
                 ):
         super().__init__()
@@ -317,7 +317,7 @@ class DropoutTrainer(Framework):
 
         # Hyperparameters and general parameters
         # TODO: MC_Dropout_4. Do experiments and tune hyperparameters
-        self.batch_size = 64
+        self.batch_size = 500
         self.learning_rate = 1e-3
         self.num_epochs = 40
         # torch.manual_seed(0) # set seed for reproducibility
