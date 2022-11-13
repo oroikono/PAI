@@ -329,7 +329,7 @@ class DropoutTrainer(Framework):
         self.train_loader = torch.utils.data.DataLoader(
             dataset_train, batch_size=self.batch_size, shuffle=True, drop_last=True
             )
-        self.optimizer = torch.optim.NAdam(self.network.parameters(), lr=self.learning_rate,weight_decay=1e-2) 
+        self.optimizer = torch.optim.RMSprop(self.network.parameters(), lr=self.learning_rate,weight_decay=1e-2) 
 
     def train(self):
         self.network.train()
@@ -378,9 +378,9 @@ class DropoutTrainer(Framework):
 
             output=self.network.forward(x)
             if i==0:
-                estimated_probability=F.softmax(output,dim=1)
+                estimated_probability=torch.nn.functional.log_softmax(output)
             else:
-                estimated_probability+=F.softmax(output,dim=1)
+                estimated_probability+=torch.nn.functional.log_softmax(output)
 
         estimated_probability= (estimated_probability/num_sample)
         
