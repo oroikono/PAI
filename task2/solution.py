@@ -349,7 +349,7 @@ class DropoutTrainer(Framework):
                 # batch_y = ones.index_select(0, batch_y)
 
                 # # loss = F.mse_loss(F.softmax(current_logits, dim=1), batch_y,reduction='sum')
-                criterion = nn.CrossEntropyLoss()
+                criterion = nn.CrossEntropyLoss(reduction="mean")
                 current_logits = self.network.forward(batch_x)
                 # current_logits = torch.nn.functional.softmax(current_logits)
                 tau = 1e-3
