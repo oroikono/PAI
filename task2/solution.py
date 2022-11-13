@@ -24,7 +24,7 @@ from util import ece, ParameterDistribution, draw_reliability_diagram, draw_conf
 from enum import Enum
 
 # TODO: Reliability_diagram_1. Set `EXTENDED_EVALUATION` to `True` in order to visualize your predictions.
-EXTENDED_EVALUATION = True
+EXTENDED_EVALUATION = False
 
 class Approach(Enum):
     Dummy_Trainer = 0
@@ -343,7 +343,7 @@ class DropoutTrainer(Framework):
                 # TODO: MC_Dropout_2. Implement MCDropout training here
                 # You need to calculate the loss based on the literature
 
-                #classification
+                # classification
                 criterion = nn.CrossEntropyLoss()
                 current_logits = self.network.forward(batch_x)
                 
