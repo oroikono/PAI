@@ -6,5 +6,5 @@ GPy==1.9.9
 matplotlib==3.3.1
 scikit-learn==0.24.*
 gpytorch == 1.9.*
-gpytorch == 1.11.*
+pytorch == 1.11.*
 torch == 1.9.*
