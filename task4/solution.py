@@ -9,11 +9,15 @@ import scipy.signal
 from gym.spaces import Box, Discrete
 
 import torch
-from torch.optim import Adam
+from torch.optim import Adam,AdamW,RMSprop
 import torch.nn as nn
 
+
+
 ## Newly added
+# oroikono: added AdamW, MSELoss
 from torch.distributions import Categorical
+from torch.nn import MSELoss
 import torch.nn.functional as F
 from torch.autograd import Variable
 
@@ -454,7 +458,7 @@ class Agent:
         return self.act(state)
 
 
-def train(env, seed=0):
+def train(env,seed=0):
     """
     Main training loop.
     IMPORTANT: This function is called by the checker to train your agent.
@@ -545,18 +549,19 @@ def train(env, seed=0):
         # change 3
          # Do 1 policy gradient update
         actor_optimizer.zero_grad() #reset the gradient in the actor optimizer
-        _, log_prob = agent.actor.forward(data['obs'], data['act'])
-        actor_loss = torch.mul(-data['tdres'], log_prob).mean()
+        logPrb = agent.actor.forward(data['obs'], data['act'])[1]
+        actor_loss = torch.mean(-data['tdres']* logPrb)
         actor_loss.backward()
         actor_optimizer.step()
         
         # We suggest to do 100 iterations of value function updates
         for _ in range(100):
             critic_optimizer.zero_grad()
-            v = agent.critic.forward(data['obs'])
-            critic_loss = torch.sum(torch.square(v - data['ret']))
+            value = agent.critic.forward(data['obs'])
+            critic_loss = F.mse_loss(value, data['ret'])
             critic_loss.backward()
             critic_optimizer.step()
+
 
     return agent
 
@@ -585,29 +590,29 @@ def main():
     returns = []
     print("Evaluating agent...")
 
-#     for i in range(n_eval):
-#         print(f"Testing policy: episode {i+1}/{n_eval}")
-#         state = env.reset()
-#         cumulative_return = 0
-#         # The environment will set terminal to True if an episode is done.
-#         terminal = False
-#         env.reset()
-#         for t in range(episode_length):
-#             if i <= 10:
-#                 rec.capture_frame()
-#             # Taking an action in the environment
-#             action = agent.get_action(state)
-#             state, reward, terminal = env.transition(action)
-#             cumulative_return += reward
-#             if terminal:
-#                 break
-#         returns.append(cumulative_return)
-#         print(f"Achieved {cumulative_return:.2f} return.")
-#         if i == 10:
-#             rec.close()
-#             print("Saved video of 10 episodes to 'policy.mp4'.")
-#     env.close()
-#     print(f"Average return: {np.mean(returns):.2f}")
+    for i in range(n_eval):
+        print(f"Testing policy: episode {i+1}/{n_eval}")
+        state = env.reset()
+        cumulative_return = 0
+        # The environment will set terminal to True if an episode is done.
+        terminal = False
+        env.reset()
+        for t in range(episode_length):
+            if i <= 10:
+                rec.capture_frame()
+            # Taking an action in the environment
+            action = agent.get_action(state)
+            state, reward, terminal = env.transition(action)
+            cumulative_return += reward
+            if terminal:
+                break
+        returns.append(cumulative_return)
+        print(f"Achieved {cumulative_return:.2f} return.")
+        if i == 10:
+            rec.close()
+            print("Saved video of 10 episodes to 'policy.mp4'.")
+    env.close()
+    print(f"Average return: {np.mean(returns):.2f}")
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
